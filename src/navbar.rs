@@ -4,7 +4,7 @@ use yew::prelude::*;
 pub fn navbar() -> Html {
     html! {
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <button class="font-bold bg-red-500">
+            <button class="font-bold bg-red-500 rounded-md">
                 {"Home"}
             </button>
 
