@@ -2,3 +2,5 @@
 /target/
 tailwind.css
 app.css
+*node_modules/*
+package-lock.json
