@@ -123,6 +123,20 @@ impl App {
                 <div class="preview-media">
                     // if file.file_type.contains("fits"){
                         <p>{file.fits.hdus[0].header.get_header_type()}</p>
+                        <table>
+                        <tr>
+                            <th>{"Keyword"}</th>
+                            <th>{"Value"}</th>
+                        </tr>
+                        {for file.fits.hdus[0].header.list_keywords().iter().map(|(key, value)| {
+                            html! {
+                                <tr>
+                                    <td>{key}</td>
+                                    <td>{value}</td>
+                                </tr>
+                            }
+                        })}
+                        </table>
                     // }
                 </div>
             </div>
