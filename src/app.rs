@@ -128,6 +128,8 @@ impl App {
                             <th>{"Keyword"}</th>
                             <th>{"Value"}</th>
                         </tr>
+                        </table>
+                        <table class="table-auto block overflow-auto max-h-32 max-w-96">
                         {for file.fits.hdus[0].header.list_keywords().iter().map(|(key, value)| {
                             html! {
                                 <tr>
