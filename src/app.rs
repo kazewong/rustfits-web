@@ -11,11 +11,12 @@ use web_sys::{DragEvent, Event, FileList, HtmlInputElement};
 use yew::html::TargetCast;
 use yew::{html, Callback, Component, Context, Html};
 
+use rustfits::fits::FITS;
 
 struct FileDetails {
     name: String,
     file_type: String,
-    data: Vec<u8>,
+    fits: FITS,
 }
 pub enum Msg {
     Loaded(String, String, Vec<u8>),
@@ -42,7 +43,7 @@ impl Component for App {
         match msg {
             Msg::Loaded(file_name, file_type, data) => {
                 self.files.push(FileDetails {
-                    data,
+                    fits: FITS::new_from_buffer(&data),
                     file_type,
                     name: file_name.clone(),
                 });
@@ -120,9 +121,9 @@ impl App {
             <div class="preview-tile">
                 <p class="preview-name">{ format!("{}", file.name) }</p>
                 <div class="preview-media">
-                    if file.file_type.contains("fits"){
-
-                    }
+                    // if file.file_type.contains("fits"){
+                        <p>{file.fits.hdus[0].header.get_header_type()}</p>
+                    // }
                 </div>
             </div>
         }
