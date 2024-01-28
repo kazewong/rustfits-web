@@ -1,4 +1,4 @@
-use crate::components::tables::OptionList;
+use crate::components::FITSView::OptionList;
 
 use std::collections::HashMap;
 
