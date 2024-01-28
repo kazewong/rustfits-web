@@ -1,6 +1,18 @@
-# Yew Trunk Template
+# FITS viewer without installing
 
-This is a fairly minimal template for a Yew app that's built with [Trunk].
+FITS (Flexible Image Transport System) is a standard format for astronomical data. It is designed to store images, cubes, spectra, tables and other data, together with descriptive metadata. While there are many tools to view FITS files, most of them requires the user to install them and manage its dependencies. Imagine you are in a dire situation in a party which you need impress a friend by showing him/her a FITS file, but you don't have any FITS viewer installed on your phone, that's too bad.
+
+This is why I created this project. It is a web-based FITS viewer which can run on the your web browser using your local resource and without a server. This means you can view FITS files on your computer, as well as your phone, tablet, or even your smart watch if you dare to dream. It also means there is no server will go down and so this is a very reliable way to view FITS files. You can still install and use it locally, but in case you have access to internet and absolutely don't want to set up anything, here is the link to the full fledge version of this project: 
+
+## Features
+
+- [x] Load fits file
+- [x] Display header
+- [] Display image
+- [] Display table
+- [] Manipulate image
+
+## Serving locally
 
 ## Usage
 
