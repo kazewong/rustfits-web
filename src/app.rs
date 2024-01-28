@@ -122,9 +122,8 @@ impl App {
                 <p class="preview-name">{ format!("{}", file.name) }</p>
                 <div class="preview-media">
                     <p> 
-                    <OptionList options={file.fits.list_headers()} selected={0}/>
+                    <OptionList options={file.fits.list_headers()} />
                     </p>
-                    <p>{file.fits.hdus[0].header.get_header_type()}</p>
                     <table>
                     <tr>
                         <th>{"Keyword"}</th>
