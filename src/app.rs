@@ -1,4 +1,4 @@
-use crate::components::FITSView::OptionList;
+use crate::components::FITSView::FITSView;
 
 use std::collections::HashMap;
 
@@ -121,28 +121,9 @@ impl App {
             <div class="preview-tile">
                 <p class="preview-name">{ format!("{}", file.name) }</p>
                 <div class="preview-media">
-                    <p> 
-                    <OptionList options={file.fits.list_headers()} />
-                    </p>
-                    <table>
-                    <tr>
-                        <th>{"Keyword"}</th>
-                        <th>{"Value"}</th>
-                    </tr>
-                    </table>
-                    <table class="table-auto block overflow-auto max-h-32 max-w-96">
-                    {for file.fits.hdus[0].header.list_keywords().iter().map(|(key, value)| {
-                        html! {
-                            <tr>
-                                <td>{key}</td>
-                                <td>{value}</td>
-                            </tr>
-                        }
-                    })}
-                    </table>
+                    <FITSView file={file.fits.clone()} />
                 </div>
             </div>
-
         }
     }
 

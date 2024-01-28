@@ -1,20 +1,19 @@
 use yew::{html, props, Component, Context, Html, Properties};
-use yew::prelude::*;
 
 pub enum Msg{
     Clicked(u8)
 }
 
-pub struct OptionList{
+pub struct FITSView{
     pub selected: u8,
 }
 
 #[derive(Properties, PartialEq)]
 pub struct Props{
-    pub options: Vec<String>,
+    pub file: rustfits::fits::FITS,
 }
 
-impl Component for OptionList{
+impl Component for FITSView{
 
     type Message = Msg;
     type Properties = Props;
@@ -36,8 +35,10 @@ impl Component for OptionList{
 
     fn view(&self, ctx: &Context<Self>) -> Html{
 
-        let options = ctx.props().options.clone();
+        let file = ctx.props().file.clone();
+        let options = file.list_headers();
         html!{
+            <>
             <table>
                 {
                 for options
@@ -59,6 +60,23 @@ impl Component for OptionList{
                     })
                 }
             </table>
+            <table>
+            <tr>
+                <th>{"Keyword"}</th>
+                <th>{"Value"}</th>
+            </tr>
+            </table>
+            <table class="table-auto block overflow-auto max-h-32 max-w-96">
+            {for file.hdus[self.selected as usize].header.list_keywords().iter().map(|(key, value)| {
+                html! {
+                    <tr>
+                        <td>{key}</td>
+                        <td>{value}</td>
+                    </tr>
+                }
+            })}
+            </table>
+            </>
         }
     }
 }
