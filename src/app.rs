@@ -77,7 +77,7 @@ impl Component for App {
     fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div id="wrapper">
-                <p id="title">{ "Upload Your Files To The Cloud" }</p>
+                <p id="title">{ "Pick a fits file from your local storage" }</p>
                 <label for="file-upload">
                     <div
                         id="drop-container"

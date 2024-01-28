@@ -1,4 +1,5 @@
 mod app;
+mod components;
 mod navbar;
 
 use app::App;
