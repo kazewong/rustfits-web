@@ -1,3 +1,4 @@
+use crate::components::tables::OptionList;
 
 use std::collections::HashMap;
 
@@ -116,33 +117,32 @@ impl Component for App {
 impl App {
     fn view_file(file: &FileDetails) -> Html {
         html! {
-            <ContextProvider<FileDetails> context={file.clone()}>
 
             <div class="preview-tile">
                 <p class="preview-name">{ format!("{}", file.name) }</p>
                 <div class="preview-media">
-                    // if file.file_type.contains("fits"){
-                        <p>{file.fits.hdus[0].header.get_header_type()}</p>
-                        <table>
-                        <tr>
-                            <th>{"Keyword"}</th>
-                            <th>{"Value"}</th>
-                        </tr>
-                        </table>
-                        <table class="table-auto block overflow-auto max-h-32 max-w-96">
-                        {for file.fits.hdus[0].header.list_keywords().iter().map(|(key, value)| {
-                            html! {
-                                <tr>
-                                    <td>{key}</td>
-                                    <td>{value}</td>
-                                </tr>
-                            }
-                        })}
-                        </table>
-                    // }
+                    <p> 
+                    <OptionList options={file.fits.list_headers()} selected={0}/>
+                    </p>
+                    <p>{file.fits.hdus[0].header.get_header_type()}</p>
+                    <table>
+                    <tr>
+                        <th>{"Keyword"}</th>
+                        <th>{"Value"}</th>
+                    </tr>
+                    </table>
+                    <table class="table-auto block overflow-auto max-h-32 max-w-96">
+                    {for file.fits.hdus[0].header.list_keywords().iter().map(|(key, value)| {
+                        html! {
+                            <tr>
+                                <td>{key}</td>
+                                <td>{value}</td>
+                            </tr>
+                        }
+                    })}
+                    </table>
                 </div>
             </div>
-            </ContextProvider<FileDetails>>
 
         }
     }

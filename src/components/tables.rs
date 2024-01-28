@@ -1,6 +1,11 @@
-use yew::{Component, Context, html, Html, Properties};
+use yew::{html, props, Component, Context, Html, Properties};
+use yew::prelude::*;
 
-pub struct OptionList{
+
+pub struct OptionList;
+
+#[derive(Properties, PartialEq)]
+pub struct Props{
     pub options: Vec<String>,
     pub selected: u8
 }
@@ -8,13 +13,10 @@ pub struct OptionList{
 impl Component for OptionList{
 
     type Message = ();
-    type Properties = ();
+    type Properties = Props;
 
     fn create(ctx: &Context<Self>) -> Self {
-        Self{
-            options: Vec::new(),
-            selected: 0
-        }
+        Self
     }
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
@@ -24,20 +26,14 @@ impl Component for OptionList{
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html{
-        let options = self.options.iter().enumerate().map(|(i, option)| {
-            let selected = if i == self.selected as usize{
-                "selected"
-            }else{
-                ""
-            };
-            html!{
-                <p>{option}</p>
-            }
-        });
+
+        let options = ctx.props().options.clone();
         html!{
-            <select>
-                {for options}
-            </select>
+            <table>
+                {
+                for options
+                }
+            </table>
         }
     }
 }
