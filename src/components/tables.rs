@@ -41,12 +41,3 @@ impl Component for OptionList{
         }
     }
 }
-
-impl OptionList{
-    pub fn new(options: Vec<String>) -> OptionList{
-        OptionList{
-            options,
-            selected: 0
-        }
-    }
-}

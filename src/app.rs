@@ -1,18 +1,15 @@
-use yew::prelude::*;
-use crate::navbar::Navbar;
 
 use std::collections::HashMap;
 
-use base64::engine::general_purpose::STANDARD;
-use base64::Engine;
 use gloo::file::callbacks::FileReader;
 use gloo::file::File;
 use web_sys::{DragEvent, Event, FileList, HtmlInputElement};
 use yew::html::TargetCast;
-use yew::{html, Callback, Component, Context, Html};
+use yew::{html, Callback, Component, Context, ContextProvider, Html};
 
 use rustfits::fits::FITS;
 
+#[derive(Clone, Debug, PartialEq)]
 struct FileDetails {
     name: String,
     file_type: String,
@@ -76,41 +73,42 @@ impl Component for App {
 
     fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
-            <div id="wrapper">
-                <p id="title">{ "Pick a fits file from your local storage" }</p>
-                <label for="file-upload">
-                    <div
-                        id="drop-container"
-                        ondrop={ctx.link().callback(|event: DragEvent| {
-                            event.prevent_default();
-                            let files = event.data_transfer().unwrap().files();
-                            Self::upload_files(files)
+                <div id="wrapper">
+                    <p id="title">{ "Pick a fits file from your local storage" }</p>
+                    <label for="file-upload">
+                        <div
+                            id="drop-container"
+                            ondrop={ctx.link().callback(|event: DragEvent| {
+                                event.prevent_default();
+                                let files = event.data_transfer().unwrap().files();
+                                Self::upload_files(files)
+                            })}
+                            ondragover={Callback::from(|event: DragEvent| {
+                                event.prevent_default();
+                            })}
+                            ondragenter={Callback::from(|event: DragEvent| {
+                                event.prevent_default();
+                            })}
+                        >
+                            <i class="fa fa-cloud-upload"></i>
+                            <p>{"Drop your fits here or click to select"}</p>
+                        </div>
+                    </label>
+                    <input
+                        id="file-upload"
+                        type="file"
+                        accept=".fits"
+                        multiple={false}
+                        onchange={ctx.link().callback(move |e: Event| {
+                            let input: HtmlInputElement = e.target_unchecked_into();
+                            Self::upload_files(input.files())
                         })}
-                        ondragover={Callback::from(|event: DragEvent| {
-                            event.prevent_default();
-                        })}
-                        ondragenter={Callback::from(|event: DragEvent| {
-                            event.prevent_default();
-                        })}
-                    >
-                        <i class="fa fa-cloud-upload"></i>
-                        <p>{"Drop your fits here or click to select"}</p>
+                    />
+                    <div id="preview-area">
+                        { for self.files.iter().map(Self::view_file) }
                     </div>
-                </label>
-                <input
-                    id="file-upload"
-                    type="file"
-                    accept=".fits"
-                    multiple={false}
-                    onchange={ctx.link().callback(move |e: Event| {
-                        let input: HtmlInputElement = e.target_unchecked_into();
-                        Self::upload_files(input.files())
-                    })}
-                />
-                <div id="preview-area">
-                    { for self.files.iter().map(Self::view_file) }
                 </div>
-            </div>
+
         }
     }
 }
@@ -118,6 +116,8 @@ impl Component for App {
 impl App {
     fn view_file(file: &FileDetails) -> Html {
         html! {
+            <ContextProvider<FileDetails> context={file.clone()}>
+
             <div class="preview-tile">
                 <p class="preview-name">{ format!("{}", file.name) }</p>
                 <div class="preview-media">
@@ -142,6 +142,8 @@ impl App {
                     // }
                 </div>
             </div>
+            </ContextProvider<FileDetails>>
+
         }
     }
 
