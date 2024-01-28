@@ -8,9 +8,9 @@ This is why I created this project. It is a web-based FITS viewer which can run 
 
 - [x] Load fits file
 - [x] Display header
-- [] Display image
-- [] Display table
-- [] Manipulate image
+- [ ] Display image
+- [ ] Display table
+- [ ] Manipulate image
 
 ## Serving locally
 
