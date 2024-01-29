@@ -1,4 +1,4 @@
-use rustfits::data::tables::{ASCIIField, Matrix2D};
+use rustfits::data::tables::{ASCIIField, ASCIITable, BinaryField, BinaryTable, Matrix2D};
 use yew::{html, props, Component, Context, Html, Properties};
 
 pub struct TableView{
