@@ -1,4 +1,5 @@
 use yew::{html, props, Component, Context, Html, Properties};
+use crate::components::TableView::TableView;
 
 pub enum Msg{
     Clicked(u8)
@@ -76,6 +77,18 @@ impl Component for FITSView{
                 }
             })}
             </table>
+            if file.hdus[self.selected as usize].header.get_header_type() == rustfits::header::HeaderType::ASCIITable{
+                <TableView data={
+                    match &file.hdus[self.selected as usize].data{
+                        rustfits::data::data::Data::ASCIITable(table) => {
+                            table.format_data()
+                        },
+                        _ => {
+                            panic!("Not an ASCIITable");
+                        }
+                    }
+                } />
+            }
             </>
         }
     }
