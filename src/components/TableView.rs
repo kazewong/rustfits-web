@@ -25,8 +25,23 @@ impl Component for TableView{
 
     fn view(&self, ctx: &Context<Self>) -> Html{
 
+        let data = ctx.props().data.clone();
+
         html!{
             <>
+            {for data.into_iter().map(|row|{
+                html!{
+                    <tr>
+                        {
+                            for row.iter().map(|field|{
+                                html!{
+                                    <td>{field}</td>
+                                }
+                            })
+                        }
+                    </tr>
+                }
+            })}
             </>
         }
     }
