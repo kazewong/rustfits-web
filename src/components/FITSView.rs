@@ -66,7 +66,7 @@ impl Component for FITSView{
                 <th>{"Value"}</th>
             </tr>
             </table>
-            <table class="table-auto block overflow-auto max-h-32 max-w-96">
+            <table class="table-auto block overflow-auto max-h-64 max-w-96">
             {for file.hdus[self.selected as usize].header.list_keywords().iter().map(|(key, value)| {
                 html! {
                     <tr>
