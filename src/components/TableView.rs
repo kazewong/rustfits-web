@@ -1,6 +1,7 @@
 use rustfits::data::tables::{ASCIIField, ASCIITable, BinaryField, BinaryTable, Matrix2D};
+use web_sys::console;
 use yew::{html, props, Component, Context, Html, Properties};
-
+use log::info;
 pub struct TableView{
 }
 
@@ -15,6 +16,7 @@ impl Component for TableView{
     type Properties = Props;
 
     fn create(ctx: &Context<Self>) -> Self {
+        info!("TableView created");
         Self{
         }
     }
@@ -26,22 +28,11 @@ impl Component for TableView{
     fn view(&self, ctx: &Context<Self>) -> Html{
 
         let data = ctx.props().data.clone();
+        let row = data.get_row(0);
 
         html!{
             <>
-            {for data.into_iter().map(|row|{
-                html!{
-                    <tr>
-                        {
-                            for row.iter().map(|field|{
-                                html!{
-                                    <td>{field}</td>
-                                }
-                            })
-                        }
-                    </tr>
-                }
-            })}
+            {row.iter().collect::<Html>()}
             </>
         }
     }

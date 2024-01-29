@@ -16,6 +16,8 @@ rustfits = { path = "../rustfits" }
 gloo = "0.11.0"
 base64 = "0.21.7"
 js-sys = "0.3.67"
+wasm-logger = "0.2.0"
+log = "0.4.20"
 
 
 [dependencies.web-sys]

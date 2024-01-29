@@ -1,5 +1,6 @@
 use yew::{html, props, Component, Context, Html, Properties};
 use crate::components::TableView::TableView;
+use log::info;
 
 pub enum Msg{
     Clicked(u8)
@@ -20,6 +21,7 @@ impl Component for FITSView{
     type Properties = Props;
 
     fn create(ctx: &Context<Self>) -> Self {
+        info!("FITSView created");
         Self{
             selected: 0,
         }
