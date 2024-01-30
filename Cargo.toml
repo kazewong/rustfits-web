@@ -12,12 +12,12 @@ categories = ["gui", "wasm", "web-programming"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
 yew = { version="0.20", features=["csr"] }
-rustfits = { path = "../rustfits" }
 gloo = "0.11.0"
 base64 = "0.21.7"
 js-sys = "0.3.67"
 wasm-logger = "0.2.0"
 log = "0.4.20"
+rustfits = "0.1.0"
 
 
 [dependencies.web-sys]

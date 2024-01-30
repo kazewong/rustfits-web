@@ -831,6 +831,8 @@ checksum = "d626bb9dae77e28219937af045c257c28bfd3f69333c512553507f5f9798cb76"
 [[package]]
 name = "rustfits"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "26b0c61520904c506a9305fb0731778c8b909950acfb8b334e1e8acafa151492"
 dependencies = [
  "byteorder",
  "console_error_panic_hook",
