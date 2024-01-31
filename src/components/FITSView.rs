@@ -1,34 +1,31 @@
-use yew::{html, props, Component, Context, Html, Properties};
 use crate::components::TableView::TableView;
 use log::info;
+use yew::{html, props, Component, Context, Html, Properties};
 
-pub enum Msg{
-    Clicked(u8)
+pub enum Msg {
+    Clicked(u8),
 }
 
-pub struct FITSView{
+pub struct FITSView {
     pub selected: u8,
 }
 
 #[derive(Properties, PartialEq)]
-pub struct Props{
+pub struct Props {
     pub file: rustfits::fits::FITS,
 }
 
-impl Component for FITSView{
-
+impl Component for FITSView {
     type Message = Msg;
     type Properties = Props;
 
     fn create(ctx: &Context<Self>) -> Self {
         info!("FITSView created");
-        Self{
-            selected: 0,
-        }
+        Self { selected: 0 }
     }
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
-        match msg{
+        match msg {
             Msg::Clicked(n) => {
                 self.selected = n;
                 true
@@ -36,11 +33,10 @@ impl Component for FITSView{
         }
     }
 
-    fn view(&self, ctx: &Context<Self>) -> Html{
-
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let file = ctx.props().file.clone();
         let options = file.list_headers();
-        html!{
+        html! {
             <>
             <table>
                 {
@@ -83,14 +79,26 @@ impl Component for FITSView{
                 <TableView data={
                     match &file.hdus[self.selected as usize].data{
                         rustfits::data::data::Data::ASCIITable(table) => {
-                            table.format_data()
+                            TableView(table.format_data())
                         },
                         _ => {
-                            panic!("Not an ASCIITable");
+                            panic!("Not an Table");
                         }
                     }
                 } />
             }
+            else if file.hdus[self.selected as usize].header.get_header_type() == rustfits::header::HeaderType::BinaryTable{
+                <TableView data={
+                    match &file.hdus[self.selected as usize].data{
+                        rustfits::data::data::Data::BinaryTable(table) => {
+                            table.format_data()
+                        },
+                        _ => {
+                            panic!("Not an Table");
+                        }
+                    }
+                } />
+            }            
             </>
         }
     }
