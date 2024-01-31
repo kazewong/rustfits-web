@@ -1,30 +1,37 @@
-use core::fmt;
 
-use rustfits::data::tables::{ASCIIField, ASCIITable, BinaryField, BinaryTable, Matrix2D};
-use web_sys::console;
-use yew::{html, props, Component, Context, Html, Properties};
+use rustfits::data::tables::{ASCIIField, BinaryField, Matrix2D};
+use yew::{html, Component, Context, Html, Properties};
 use log::info;
 pub struct TableView{
 }
 
 #[derive(Debug, Clone, PartialEq)]
-enum TableField{
+pub enum Tables{
+    ASCII(Matrix2D<ASCIIField>),
+    Binary(Matrix2D<BinaryField>),
+}
+
+pub enum Fields{
     ASCII(ASCIIField),
     Binary(BinaryField),
 }
 
-impl fmt::Display for TableField{
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl Tables{
+    pub fn get_row(&self, row: usize) -> Vec<Fields>{
         match self{
-            TableField::ASCII(field) => write!(f, "{}", field),
-            TableField::Binary(field) => write!(f, "{}", field),
+            Tables::ASCII(table) => {
+                table.get_row(row.try_into().unwrap()).iter().map(|x| Fields::ASCII(x.clone())).collect()
+            },
+            Tables::Binary(table) => {
+                table.get_row(row.try_into().unwrap()).iter().map(|x| Fields::Binary(x.clone())).collect()
+            },
         }
     }
 }
 
 #[derive(Properties, PartialEq)]
 pub struct Props{
-    pub data: Matrix2D<TableField>,
+    pub data: Tables,
 }
 
 impl Component for TableView{
@@ -49,7 +56,7 @@ impl Component for TableView{
 
         html!{
             <>
-            {row.iter().collect::<Html>()}
+            // {row.iter().collec   t::<Html>()}
             </>
         }
     }

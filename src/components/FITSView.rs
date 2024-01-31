@@ -1,4 +1,4 @@
-use crate::components::TableView::TableView;
+use crate::components::TableView::{TableView, Tables};
 use log::info;
 use yew::{html, props, Component, Context, Html, Properties};
 
@@ -75,30 +75,21 @@ impl Component for FITSView {
                 }
             })}
             </table>
-            if file.hdus[self.selected as usize].header.get_header_type() == rustfits::header::HeaderType::ASCIITable{
-                <TableView data={
-                    match &file.hdus[self.selected as usize].data{
-                        rustfits::data::data::Data::ASCIITable(table) => {
-                            TableView(table.format_data())
-                        },
-                        _ => {
-                            panic!("Not an Table");
-                        }
+            if file.hdus[self.selected as usize].header.get_header_type() == rustfits::header::HeaderType::ASCIITable || file.hdus[self.selected as usize].header.get_header_type() == rustfits::header::HeaderType::BinaryTable{
+            <TableView data={
+                match &file.hdus[self.selected as usize].data{
+                    rustfits::data::data::Data::ASCIITable(table) => {
+                        Tables::ASCII(table.format_data())
+                    },
+                    rustfits::data::data::Data::BinaryTable(table) => {
+                        Tables::Binary(table.format_data())
+                    },
+                    _ => {
+                        panic!("Not an Table");
                     }
-                } />
-            }
-            else if file.hdus[self.selected as usize].header.get_header_type() == rustfits::header::HeaderType::BinaryTable{
-                <TableView data={
-                    match &file.hdus[self.selected as usize].data{
-                        rustfits::data::data::Data::BinaryTable(table) => {
-                            table.format_data()
-                        },
-                        _ => {
-                            panic!("Not an Table");
-                        }
-                    }
-                } />
-            }            
+                }
+            } />
+        }
             </>
         }
     }
