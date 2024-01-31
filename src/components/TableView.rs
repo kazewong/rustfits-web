@@ -1,4 +1,6 @@
 
+use core::fmt;
+
 use rustfits::data::tables::{ASCIIField, BinaryField, Matrix2D};
 use yew::{html, Component, Context, Html, Properties};
 use log::info;
@@ -14,6 +16,19 @@ pub enum Tables{
 pub enum Fields{
     ASCII(ASCIIField),
     Binary(BinaryField),
+}
+
+impl fmt::Display for Fields{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self{
+            Fields::ASCII(field) => {
+                write!(f, "{}", field)
+            },
+            Fields::Binary(field) => {
+                write!(f, "{}", field)
+            },
+        }
+    }
 }
 
 impl Tables{
@@ -56,7 +71,7 @@ impl Component for TableView{
 
         html!{
             <>
-            // {row.iter().collec   t::<Html>()}
+            {row.iter().collect::<Html>()}
             </>
         }
     }
