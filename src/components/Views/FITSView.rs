@@ -1,4 +1,5 @@
 use crate::components::Views::TableView::{TableView, Tables};
+use crate::components::Graphs::LineGraph::LineGraph;
 use log::info;
 use yew::{html, props, Component, Context, Html, Properties};
 
@@ -89,11 +90,7 @@ impl Component for FITSView {
                     }
                 }
             } />
-            // else if file.hdus[self.selected as usize].header.get_header_type() == rustfits::header::HeaderType::Image{
-            //     html!{
-            //         <img src={format!("data:image/png;base64,{}", file.hdus[self.selected as usize].data.format_data())} />
-            //         }
-            //     }
+            <LineGraph />
         }
             </>
         }
