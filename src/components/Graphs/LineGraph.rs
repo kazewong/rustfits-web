@@ -22,7 +22,7 @@ impl Component for LineGraph {
 
     fn create(ctx: &Context<Self>) -> Self {
         ctx.link().send_message(LineGraphMsg:: Redraw);
-        Plot {
+        LineGraph {
           canvas : NodeRef::default(),
         }       
     }
