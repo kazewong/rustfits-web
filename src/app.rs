@@ -1,4 +1,4 @@
-use crate::components::FITSView::FITSView;
+use crate::components::Views::FITSView::FITSView;
 
 use std::collections::HashMap;
 

@@ -1,4 +1,4 @@
-use crate::components::TableView::{TableView, Tables};
+use crate::components::Views::TableView::{TableView, Tables};
 use log::info;
 use yew::{html, props, Component, Context, Html, Properties};
 

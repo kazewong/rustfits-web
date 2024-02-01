@@ -18,8 +18,10 @@ js-sys = "0.3.67"
 wasm-logger = "0.2.0"
 log = "0.4.20"
 rustfits = "0.1.1"
+plotters = "0.3.5"
+plotters-canvas = "0.3.0"
 
 
 [dependencies.web-sys]
 version = "0.3.67"
-features = ["File", "DragEvent", "DataTransfer"]
+features = ["File", "DragEvent", "DataTransfer", "HtmlCanvasElement"]
