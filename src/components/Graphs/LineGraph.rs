@@ -24,7 +24,7 @@ impl Component for LineGraph {
         ctx.link().send_message(LineGraphMsg:: Redraw);
         LineGraph {
           canvas : NodeRef::default(),
-        }       
+        }
     }
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
