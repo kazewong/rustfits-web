@@ -1,1 +1,1 @@
-pub mod LineGraph;
+pub mod line_graph;

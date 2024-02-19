@@ -1,5 +1,5 @@
 use crate::components::Views::TableView::{TableView, Tables};
-use crate::components::Graphs::LineGraph::LineGraph;
+use crate::components::Graphs::line_graph::LineGraph;
 use log::info;
 use yew::{html, props, Component, Context, Html, Properties};
 
