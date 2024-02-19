@@ -1,2 +1,2 @@
-pub mod Views;
-pub mod Graphs;
+pub mod views;
+pub mod graphs;
