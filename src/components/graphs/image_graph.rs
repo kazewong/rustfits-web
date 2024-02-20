@@ -33,9 +33,9 @@ impl Component for ImageGraph{
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         let data = ctx.props().data.clone();
         let image = data.format_data().into_dimensionality::<ndarray::Ix2>().unwrap();
-        log::info!("Image: {:?}", image);
         match msg {
             ImageGraphMsg::Redraw => {
+                log::info!("Redrawing ImageGraph");
                 let element : HtmlCanvasElement = self.canvas.cast().unwrap();
                 
                 let rect = element.get_bounding_client_rect();
@@ -69,10 +69,6 @@ impl Component for ImageGraph{
                     for y in 0..ph {
                         let value: f64 = image[[x as usize, y as usize]].to_f64() / 10.0;
                         let color = MandelbrotHSL::get_color(value);
-                        if value > 0.0{
-                            log::info!("Value: {:?} Color: {:?}", value, color);
-                            log::info!("X: {:?} Y: {:?}", x, y)
-                        }
                         plotting_area.draw_pixel((x_width * x as f64 + xr.start, y_width * y as f64 + yr.start), &color).unwrap();
                     }
                 }
