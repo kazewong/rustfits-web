@@ -92,7 +92,16 @@ impl Component for FITSView {
                 }
             } />
             <LineGraph />
-            <ImageGraph />
+            <ImageGraph data={
+                match &file.hdus[self.selected as usize].data{
+                    rustfits::data::data::Data::Array(array) => {
+                        array.clone()
+                    },
+                    _ => {
+                        panic!("Not an Image");
+                    }
+                }
+            }/>
         }
             </>
         }

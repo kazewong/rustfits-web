@@ -3,6 +3,7 @@ use plotters_canvas::CanvasBackend;
 use web_sys::HtmlCanvasElement;
 use yew::prelude::*;
 
+
 pub enum ImageGraphMsg {
     Redraw,
     Nothing
@@ -10,6 +11,7 @@ pub enum ImageGraphMsg {
 
 #[derive(PartialEq, Properties)]
 pub struct ImageGraphProps {
+    pub data: rustfits::data::array::ArrayData,
 }
 
 pub struct ImageGraph {
@@ -57,11 +59,17 @@ impl Component for ImageGraph{
                 let range = plotting_area.get_pixel_range();
 
                 let (pw, ph) = (range.0.end - range.0.start, range.1.end - range.1.start);
-                let (xr, yr) = (chart.x_range(), chart.y_range());
-              
-                true
+
+                for (x, y) in (0..pw).zip(0..ph) {
+                    let x = x as f64 / pw as f64 * 3.0 - 2.1;
+                    let y = y as f64 / ph as f64 * 2.4 - 1.2;
+                    let color = RGBColor(0, (x * 255.0) as u8, (y * 255.0) as u8);
+                    plotting_area.draw_pixel((x, y), &color).unwrap();
+                }
+
+                false
             },
-            ImageGraphMsg::Nothing => {false},
+            ImageGraphMsg::Nothing => {true},
           }
     }
 
