@@ -33,6 +33,7 @@ impl Component for ImageGraph{
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         let data = ctx.props().data.clone();
         let image = data.format_data().into_dimensionality::<ndarray::Ix2>().unwrap();
+        log::info!("Image: {:?}", image);
         match msg {
             ImageGraphMsg::Redraw => {
                 let element : HtmlCanvasElement = self.canvas.cast().unwrap();
@@ -61,15 +62,22 @@ impl Component for ImageGraph{
                 let range = plotting_area.get_pixel_range();
 
                 let (pw, ph) = (range.0.end - range.0.start, range.1.end - range.1.start);
+                let (xr, yr) = (chart.x_range(), chart.y_range());
+                let (x_width, y_width) = ((xr.end - xr.start) /pw as f64 , (yr.end - yr.start) / ph as f64);
 
-                for (x, y) in (0..pw).zip(0..ph) {
-                    let value: f64 = image[[x as usize, y as usize]].to_f64();
-                    let color = MandelbrotHSL::get_color(value);
-                    log::info!("Color: {:?}", color);
-                    plotting_area.draw_pixel((x.into(), y.into()), &color).unwrap();
+                for x in 0..pw{
+                    for y in 0..ph {
+                        let value: f64 = image[[x as usize, y as usize]].to_f64() / 10.0;
+                        let color = MandelbrotHSL::get_color(value);
+                        if value > 0.0{
+                            log::info!("Value: {:?} Color: {:?}", value, color);
+                            log::info!("X: {:?} Y: {:?}", x, y)
+                        }
+                        plotting_area.draw_pixel((x_width * x as f64 + xr.start, y_width * y as f64 + yr.start), &color).unwrap();
+                    }
                 }
 
-                false
+                true
             },
             ImageGraphMsg::Nothing => {true},
           }
