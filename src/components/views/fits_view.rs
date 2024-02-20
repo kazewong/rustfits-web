@@ -1,5 +1,6 @@
 use crate::components::views::table_view::{TableView, Tables};
 use crate::components::graphs::line_graph::LineGraph;
+use crate::components::graphs::image_graph::ImageGraph;
 use log::info;
 use yew::{html, props, Component, Context, Html, Properties};
 
@@ -91,6 +92,7 @@ impl Component for FITSView {
                 }
             } />
             <LineGraph />
+            <ImageGraph />
         }
             </>
         }
