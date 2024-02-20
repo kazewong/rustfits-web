@@ -38,6 +38,7 @@ impl Component for FITSView {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let file = ctx.props().file.clone();
         let options = file.list_headers();
+        let header_type = file.hdus[self.selected as usize].header.get_header_type();
         html! {
             <>
             <table>
@@ -77,7 +78,7 @@ impl Component for FITSView {
                 }
             })}
             </table>
-            if file.hdus[self.selected as usize].header.get_header_type() == rustfits::header::HeaderType::ASCIITable || file.hdus[self.selected as usize].header.get_header_type() == rustfits::header::HeaderType::BinaryTable{
+            if header_type == rustfits::header::HeaderType::ASCIITable || header_type == rustfits::header::HeaderType::BinaryTable{
             <TableView data={
                 match &file.hdus[self.selected as usize].data{
                     rustfits::data::data::Data::ASCIITable(table) => {
@@ -92,6 +93,8 @@ impl Component for FITSView {
                 }
             } />
             <LineGraph />
+            }
+            if header_type == rustfits::header::HeaderType::Image{
             <ImageGraph data={
                 match &file.hdus[self.selected as usize].data{
                     rustfits::data::data::Data::Array(array) => {
@@ -102,7 +105,7 @@ impl Component for FITSView {
                     }
                 }
             }/>
-        }
+            }
             </>
         }
     }
